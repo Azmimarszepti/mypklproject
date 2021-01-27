@@ -13,7 +13,7 @@
                         <thead>
                         <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Nama</th>
+                        <th scope="col">RW</th>
                         <th scope="col">Kelurahan</th>
                         <th scope="col">Aksi</th>
                         </tr>
@@ -24,7 +24,7 @@
                         <tr>
                         <th scope="row">{{$no++}}</th>
                         <td>{{$data->nama_rw}}</td>
-                        <td>{{$data->nama_kelurahan}}</td>
+                        <td>{{$data->kelurahan->nama_kelurahan}}</td>
                         <td>                           
                             <form action="{{route('rw.destroy',$data->id)}}" method="post">
                             @csrf

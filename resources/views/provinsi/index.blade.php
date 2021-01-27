@@ -6,6 +6,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Data Provinsi') }}
+
+
                 <a href="{{route('provinsi.create')}}" class="btn btn-primary float-right">Tambah Data</a>
                 </div>
                 <div class="card-body">

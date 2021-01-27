@@ -14,6 +14,11 @@ class ProvinsiController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $provinsi = Provinsi::all();
@@ -38,6 +43,17 @@ class ProvinsiController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        
+        $this->validate($request,[
+            'kode_provinsi' => 'required|min:4|max:20',
+            'nama_provinsi' => 'required',
+        ],$messages);
+
         $provinsi = new Provinsi;
         $provinsi->kode_provinsi = $request->kode_provinsi;
         $provinsi->nama_provinsi = $request->nama_provinsi;
@@ -78,6 +94,18 @@ class ProvinsiController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $messages = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        
+        $this->validate($request,[
+            'kode_provinsi' => 'required|min:4|max:20',
+            'nama_provinsi' => 'required',
+        ],$messages);
+
         $provinsi = Provinsi::findOrFail($id);
         $provinsi->kode_provinsi = $request->kode_provinsi;
         $provinsi->nama_provinsi = $request->nama_provinsi;

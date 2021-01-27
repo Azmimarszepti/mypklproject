@@ -16,6 +16,6 @@ class Rw extends Model
     public $timestamp = true;
 
     public function kelurahan(){
-        return $this->belongsTo(Kelurahan::class);
+        return $this->belongsTo(Kelurahan::class,'id_kelurahan');
     }
 }

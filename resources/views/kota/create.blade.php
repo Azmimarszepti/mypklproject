@@ -13,9 +13,15 @@
                 <div class="mb-3">
                     <label for="" class="form-label">Kode Kota</label>
                     <input type="text" name="kode_kota" class="form-control" id="" aria-describedby="emailHelp">                </div>
+                    @if ($errors->has('kode_kota'))
+                    <span class="text-danger">{{ $errors->first('kode_kota') }}</span>
+                    @endif
                 <div class="mb-3">
                     <label for="" class="form-label">Kota</label>
                     <input type="text" name="nama_kota" class="form-control" id="">
+                    @if ($errors->has('nama_kota'))
+                    <span class="text-danger">{{ $errors->first('nama_kota') }}</span>
+                    @endif
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Provinsi</label>

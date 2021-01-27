@@ -14,16 +14,22 @@
                 <div class="mb-3">
                     <label for="" class="form-label">Kode Kecamatan</label>
                     <input type="text" name="kode_kecamatan" value="{{$kecamatan->kode_kecamatan}}" class="form-control">                
+                    @if ($errors->has('kode_kecamatan'))
+                    <span class="text-danger">{{ $errors->first('kode_kecamatan') }}</span>
+                    @endif
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Kecamatan</label>
                     <input type="text" name="nama_kecamatan" value="{{$kecamatan->nama_kecamatan}}" class="form-control">
+                    @if ($errors->has('nama_kecamatan'))
+                    <span class="text-danger">{{ $errors->first('nama_kecamatan') }}</span>
+                    @endif
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Kota</label>
                     <select name="id_kota" class="form-control" required>
                     @foreach($kota as $data)
-                    <option value="{{$data->id}}">{{$data->kota}}</option>
+                    <option value="{{$data->id}}">{{$data->nama_kota}}</option>
                     @endforeach
                     </select>
                 </div>

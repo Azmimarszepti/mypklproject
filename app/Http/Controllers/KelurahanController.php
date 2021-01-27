@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Kelurahan;
 use App\Models\Kecamatan;
 use App\Http\Controllers\DB;
@@ -16,7 +17,8 @@ class KelurahanController extends Controller
     public function index()
     {
         $kelurahan = Kelurahan::all();
-        return view('kelurahan.index', compact('kelurahan'));
+        $kecamatan = Kecamatan::all();
+        return view('kelurahan.index', compact('kelurahan','kecamatan'));
     }
 
     public function create()
@@ -27,6 +29,18 @@ class KelurahanController extends Controller
 
     public function store(Request $request)
     {
+
+        $messages = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        
+        $this->validate($request,[
+            'kode_kelurahan' => 'required|min:4|max:20',
+            'nama_kelurahan' => 'required',
+        ],$messages);
+
         $kelurahan = new Kelurahan;
         $kelurahan->kode_kelurahan = $request->kode_kelurahan;
         $kelurahan->nama_kelurahan = $request->nama_kelurahan;
@@ -51,6 +65,17 @@ class KelurahanController extends Controller
 
     public function update(Request $request, $id)
     {
+        $messages = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        
+        $this->validate($request,[
+            'kode_kelurahan' => 'required|min:4|max:20',
+            'nama_kelurahan' => 'required',
+        ],$messages);
+        
         $kelurahan = Kelurahan::findOrFail($id);
         $kelurahan->kode_kelurahan = $request->kode_kelurahan;
         $kelurahan->nama_kelurahan = $request->nama_kelurahan;

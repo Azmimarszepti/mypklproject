@@ -16,7 +16,8 @@ class RwController extends Controller
     public function index()
     {
         $rw = Rw::all();
-        return view('rw.index', compact('rw'));
+        $kelurahan = Kelurahan::all();
+        return view('rw.index', compact('rw','kelurahan'));
     }
 
     public function create()
@@ -27,6 +28,16 @@ class RwController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        
+        $this->validate($request,[
+            'nama_rw' => 'required',
+        ],$messages);
+
         $rw = new Rw;
         $rw->nama_rw = $request->nama_rw;
         $rw->id_kelurahan = $request->id_kelurahan;
@@ -50,6 +61,16 @@ class RwController extends Controller
 
     public function update(Request $request, $id)
     {
+        $messages = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        
+        $this->validate($request,[
+            'nama_rw' => 'required',
+        ],$messages);
+
         $rw = Rw::findOrFail($id);
         $rw->nama_rw = $request->nama_rw;
         $rw->id_kelurahan = $request->id_kelurahan;

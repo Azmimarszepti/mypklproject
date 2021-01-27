@@ -39,3 +39,8 @@ Route::resource('kelurahan',KelurahanController::class);
 
 use App\Http\Controllers\RwController;
 Route::resource('rw',RwController::class);
+
+//validasi
+Route::get('/input', 'ProvinsiController@index');
+
+Route::post('/proses', 'ProvinsiController@store');

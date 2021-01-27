@@ -26,7 +26,7 @@
                         <th scope="row">{{$no++}}</th>
                         <td>{{$data->kode_kelurahan}}</td>
                         <td>{{$data->nama_kelurahan}}</td>
-                        <td>{{$data->nama_kecamatan}}</td>
+                        <td>{{$data->kecamatan->nama_kecamatan}}</td>
                         <td>                           
                             <form action="{{route('kelurahan.destroy',$data->id)}}" method="post">
                             @csrf

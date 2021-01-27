@@ -14,6 +14,12 @@ class KotaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $provinsi = Provinsi::all();
@@ -40,6 +46,18 @@ class KotaController extends Controller
      */
     public function store(Request $request)
     {
+
+        $messages = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        
+        $this->validate($request,[
+            'kode_kota' => 'required|min:4|max:20',
+            'nama_kota' => 'required',
+        ],$messages);
+
         $kota = new Kota;
         $kota->kode_kota = $request->kode_kota;
         $kota->nama_kota = $request->nama_kota;
@@ -83,6 +101,18 @@ class KotaController extends Controller
      */
     public function update(Request $request,$id)
     {
+
+        $messages = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        
+        $this->validate($request,[
+            'kode_kota' => 'required|min:4|max:20',
+            'nama_kota' => 'required',
+        ],$messages);
+        
         $kota = Kota::findOrFail($id);
         $kota->kode_kota = $request->kode_kota;
         $kota->nama_kota = $request->nama_kota;
