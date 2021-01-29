@@ -11,7 +11,7 @@
                 <form action="{{route('rw.store')}}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label for="" class="form-label">Nama</label>
+                    <label for="" class="form-label">Nomor RW</label>
                     <input type="text" name="nama_rw" class="form-control" id="">
                     @if ($errors->has('nama_rw'))
                     <span class="text-danger">{{ $errors->first('nama_rw') }}</span>
@@ -25,7 +25,7 @@
                     @endforeach
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Kirim</button>
                 </div>
                 </form>
             </div>

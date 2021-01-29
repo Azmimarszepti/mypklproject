@@ -40,6 +40,15 @@ Route::resource('kelurahan',KelurahanController::class);
 use App\Http\Controllers\RwController;
 Route::resource('rw',RwController::class);
 
+use App\Http\Controllers\Kasus2Controller;
+Route::resource('kasuslokal',Kasus2Controller::class);
+
+Route::view('states-city','livewire.home');
+
+
+
+
+
 //validasi
 Route::get('/input', 'ProvinsiController@index');
 

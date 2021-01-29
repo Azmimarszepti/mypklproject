@@ -12,7 +12,7 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
-                    <label for="" class="form-label">Nama</label>
+                    <label for="" class="form-label">Nomor Rw</label>
                     <input type="text" name="nama_rw" value="{{$rw->nama_rw}}" class="form-control">
                     @if ($errors->has('nama_rw'))
                     <span class="text-danger">{{ $errors->first('nama_rw') }}</span>
@@ -26,7 +26,7 @@
                     @endforeach
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Ubah</button>
                 </div>
                 </form>
             </div>

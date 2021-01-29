@@ -14,7 +14,8 @@ class Kasus2Controller extends Controller
      */
     public function index()
     {
-        //
+        $kasuslokal = Kasus2::all();
+        return view('kasuslokal.index', compact('kasuslokal'));
     }
 
     /**
@@ -24,7 +25,8 @@ class Kasus2Controller extends Controller
      */
     public function create()
     {
-        //
+        $kasuslokal = Kasus2::all();
+        return view('kasuslokal.create', compact('kasuslokal'));
     }
 
     /**
@@ -35,7 +37,13 @@ class Kasus2Controller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kasuslokal = new Kasus2;
+        $kasuslokal->positif = $request->positif;
+        $kasuslokal->sembuh = $request->sembuh;
+        $kasuslokal->meninggal = $request->meninggal;
+        $kasuslokal->id_rw = $request->id_rw;
+        $kasuslokal->save();
+        return redirect()->route('kasuslokal.index')->with(['message'=>'Data Berhasil Dibuat']);
     }
 
     /**

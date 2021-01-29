@@ -72,6 +72,13 @@
                   <p>Rw</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{route('kasuslokal.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kasus</p>
+                </a>
+              </li>
+
             </ul>
             <li class="nav-item menu-open">
             <a href="#" class="nav-link ">
