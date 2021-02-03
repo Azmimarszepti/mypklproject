@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Provinsi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProvinsiController;
+use App\Http\Controllers\Api\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('provinsi',[ProvinsiController::class,'index']);
+Route::post('provinsi', [ProvinsiController::class, 'store']);
+Route::get('provinsi/{id}', [ProvinsiController::class, 'show']);
+Route::delete('provinsi/{id}', [ProvinsiController::class, 'destroy']);
+
+//API Controller
+Route::get('rw', [ApiController::class, 'index']);
+Route::get('kasuslokal/{id}', [ApiController::class, 'provinsi']);
+Route::get('kasuslokal2/{id}', [ApiController::class, 'nampilkeun']);

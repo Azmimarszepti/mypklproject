@@ -1,53 +1,105 @@
 @extends('layouts.master')
+@section('css')
+<!-- Font Awesome -->
+  <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')}}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+@endsection
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Data Kasus
-                <a href="{{route('kasuslokal.create')}}" class="btn btn-primary float-right">Tambah Data</a>
+        <div class="col-md-12">
+        @if (session('message'))
+                <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session('message') }}
                 </div>
-                <div class="card-body">
-                        <table class="table">
-                        <thead>
-                        <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Rw</th>
-                        <th scope="col">Positif</th>
-                        <th scope="col">Sembuh</th>
-                        <th scope="col">Meninggal</th>
-                        <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    @php $no = 1; @endphp
-                    @foreach($kasuslokal as $data)
-                    <tbody>
-                        <tr>
-                        <th scope="row">{{$no++}}</th>
-                        <td>{{$data->nama_rw}}</td>
-                        <td>{{$data->positif}}</td>
-                        <td>{{$data->sembuh}}</td>
-                        <td>{{$data->meninggal}}</td>
-                        <td>                           
-                            <form action="{{route('kasuslokal.destroy',$data->id)}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <a href="{{route('kasuslokal.show',$data->id)}}"class ="btn btn-warning">Lihat</a> |
-                            <a href="{{route('kasuslokal.edit',$data->id)}}"class ="btn btn-primary">Ubah</a> |
-                            <button type="submit" onclick="return confirm('Apakah Anda Yakin?')" class="btn btn-danger">Hapus</button>
-                            </form>
-                        </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    </table>
+            @elseif(session('message1'))
+                <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session('message1') }}
+                </div>
+            @endif
+
+            <div class="card">
+                <div class="card-header">{{ __('Data Kasus Local') }}
+                <a href="{{route('kasuslokal.create')}}" class="float-right btn btn-outline-primary">Tambah Data</a>
+            </div>
+
+            <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                     <tr class="bg-info">
+                      <th scope="col">No</th>
+                                            <th scope="col"><center>Lokasi</center></th>
+                                            <th scope="col"><center>RW</center></th>
+                                            <th scope="col"><center>Positif</center></th>
+                                            <th scope="col"><center>Meninggal</center></th>
+                                            <th scope="col"><center>Sembuh</center></th>
+                                            <th scope="col"><center>Tanggal update</center></th>
+                                            <th scope="col"><center>Action</center></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @php $no=1;
+                                    @endphp
+                                    @foreach($kasuslokal as $data)
+
+                                        <tr>
+                                            <th scope="row"><center>{{$no++}}</center></th>
+                                            <td><center>Kelurahan : {{$data->rw->kelurahan->nama_kelurahan}}<br>
+                                            Kecamatan : {{$data->rw->kelurahan->kecamatan->nama_kecamatan}}<br>
+                                            Kota : {{$data->rw->kelurahan->kecamatan->kota->nama_kota}}<br>
+                                            Provinsi : {{$data->rw->kelurahan->kecamatan->kota->provinsi->nama_provinsi}}</center></td>
+                                            <td><center>{{$data->rw->nama_rw}}</center></td>
+                                            <td><center>{{$data->positif}}</center></td>
+                                            <td><center>{{$data->meninggal}}</center></td>
+                                            <td><center>{{$data->sembuh}}</center></td>
+                                            <td><center>{{$data->tanggal}}</center></td>
+                                            <td>
+                                            <form action="{{route('kasuslokal.destroy',$data->id)}}"  method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <center>  <a href="{{route('kasuslokal.show',$data->id)}}" class="btn btn-outline-success btn-sm"><i class="fa fa-eye"></a></i>
+                                    <a href="{{route('kasuslokal.edit',$data->id)}}" class="btn btn-outline-primary btn-sm"><i class="fa fa-edit"></a></i>
+                                    <button type="submit"  class="btn btn-outline-danger btn-sm" onclick="return confirm('Yakin Hapus?')"><i class="fa fa-trash-alt">
+                                            </form>
+                                        </tr>
+                                    @endforeach
+                            </tbody>  
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 @endsection
 
+@section('js')
+<script src="{{asset('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 
-
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+@endsection

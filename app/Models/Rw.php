@@ -18,4 +18,8 @@ class Rw extends Model
     public function kelurahan(){
         return $this->belongsTo(Kelurahan::class,'id_kelurahan');
     }
+
+    public function kasuslokal(){
+        return $this->hasMany(Kasus2::class);
+    }
 }

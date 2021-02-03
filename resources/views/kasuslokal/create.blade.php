@@ -13,33 +13,41 @@
                     <livewire:statecity />
                 </div>
 
-                <div class="mb-3">
-                    <label for="" class="form-label">Positif</label>
-                    <input type="text" name="positif" class="form-control" > 
-                    @if($errors->has('positif'))
-                    <span class="text-danger">{{ $errors->first('positif') }}</span>
-                    @endif 
-                </div>
+                <div class="form-group">
+                        <label for="">Positif</label>
+                        <input   value="{{@old('positif')}}" class="form-control"  name="positif">
+                        @error('positif')
+                      <div class="alert  alert-danger">{{$message}}</div>
+                      @enderror
+                      </div>
 
-                <div class="mb-3">
-                    <label for="" class="form-label">Sembuh</label>
-                    <input type="text" name="sembuh" class="form-control" id="">
-                    @if($errors->has('sembuh'))
-                    <span class="text-danger">{{ $errors->first('sembuh') }}</span>
-                    @endif 
-                </div>
+                     <div class="form-group">
+                        <label for="" >Sembuh</label>
+                        <input   value="{{@old('sembuh')}}" class="form-control"  name="sembuh">
+                        @error('sembuh')
+                      <div class="alert  alert-danger">{{$message}}</div>
+                      @enderror
+                     </div>
 
-                <div class="mb-3">
-                    <label for="" class="form-label">Meninggal</label>
-                    <input type="text" name="meninggal" class="form-control" id="">
-                    @if($errors->has('meninggal'))
-                    <span class="text-danger">{{ $errors->first('meninggal') }}</span>
-                    @endif 
-                </div>
+                     <div class="form-group">
+                        <label for="" >Meninggal</label>
+                        <input   value="{{@old('meninggal')}}" class="form-control"  name="meninggal">
+                        @error('meninggal')
+                      <div class="alert  alert-danger">{{$message}}</div>
+                      @enderror
+                    </div>
 
-                <button type="submit" class="btn btn-primary">Kirim</button>
-
-                </div>
+                     <div class="form-group">
+                        <label for="" >Tanggal</label>
+                        <input type="date"  value="{{@old('tanggal')}}" class="form-control"  name="tanggal">
+                        @error('tanggal')
+                      <div class="alert  alert-danger">{{$message}}</div>
+                      @enderror
+                     </div>
+                     
+                     <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
                 </form>
             </div>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kasus2;
+use App\Models\Rw;
 use Illuminate\Http\Request;
 
 class Kasus2Controller extends Controller
@@ -15,7 +16,8 @@ class Kasus2Controller extends Controller
     public function index()
     {
         $kasuslokal = Kasus2::all();
-        return view('kasuslokal.index', compact('kasuslokal'));
+        $rw = Rw::all();
+        return view('kasuslokal.index', compact('kasuslokal','rw'));
     }
 
     /**
@@ -25,8 +27,8 @@ class Kasus2Controller extends Controller
      */
     public function create()
     {
-        $kasuslokal = Kasus2::all();
-        return view('kasuslokal.create', compact('kasuslokal'));
+        $rw = Rw::all();
+        return view('kasuslokal.create', compact('rw'));
     }
 
     /**
@@ -41,6 +43,7 @@ class Kasus2Controller extends Controller
         $kasuslokal->positif = $request->positif;
         $kasuslokal->sembuh = $request->sembuh;
         $kasuslokal->meninggal = $request->meninggal;
+        $kasuslokal->tanggal = $request->tanggal;
         $kasuslokal->id_rw = $request->id_rw;
         $kasuslokal->save();
         return redirect()->route('kasuslokal.index')->with(['message'=>'Data Berhasil Dibuat']);
@@ -52,9 +55,11 @@ class Kasus2Controller extends Controller
      * @param  \App\Models\Kasus2  $kasus2
      * @return \Illuminate\Http\Response
      */
-    public function show(Kasus2 $kasus2)
+    public function show($id)
     {
-        //
+        $rw = Rw::all();
+        $kasuslokal = Kasus2::findOrFail($id);
+        return view('kasuslokal.show', compact('kasuslokal', 'rw'));
     }
 
     /**
@@ -63,9 +68,11 @@ class Kasus2Controller extends Controller
      * @param  \App\Models\Kasus2  $kasus2
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kasus2 $kasus2)
+    public function edit($id)
     {
-        //
+        $rw = Rw::all();
+        $kasuslokal = Kasus2::findOrFail($id);
+        return view('kasuslokal.edit', compact('kasuslokal', 'rw'));
     }
 
     /**
@@ -75,9 +82,16 @@ class Kasus2Controller extends Controller
      * @param  \App\Models\Kasus2  $kasus2
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kasus2 $kasus2)
+    public function update(Request $request,$id)
     {
-        //
+        $kasuslokal = Kasus2::findOrFail($id);
+        $kasuslokal->positif = $request->positif;
+        $kasuslokal->sembuh = $request->sembuh;
+        $kasuslokal->meninggal = $request->meninggal;
+        $kasuslokal->tanggal = $request->tanggal;
+        $kasuslokal->id_rw = $request->id_rw;
+        $kasuslokal->save();
+        return redirect()->route('kasuslokal.index')->with(['message'=>'Data Berhasil Di Ubah']);
     }
 
     /**

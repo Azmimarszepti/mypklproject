@@ -20,6 +20,7 @@ class CreateKasus2sTable extends Migration
             $table->string('positif');
             $table->string('meninggal');
             $table->string('sembuh');
+            $table->date('tanggal');
             $table->timestamps();
         });
     }

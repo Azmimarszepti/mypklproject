@@ -1,56 +1,65 @@
 <?php
 
 namespace App\Http\Livewire;
+
+use Livewire\Component;
 use App\Models\Provinsi;
 use App\Models\Kota;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 use App\Models\Rw;
+use App\Models\Kasus2;
 
-use Livewire\Component;
+
+
 
 class Statecity extends Component
 {
     public $provinsi;
-    public $kota;
+    public $kota ;
     public $kecamatan;
     public $kelurahan;
     public $rw;
+    public $kasuslokal;
+
 
     public $selectedState = NULL;
-    public $selectedKota = NULL;
-    public $selectedKecamatan = NULL;
-    public $selectedKelurahan = NULL;
+    public $selectedState2 = NULL;
+    public $selectedState3 = NULL;
+    public $selectedState4 = NULL;
+    public $selectedState5 = NULL;
     public $selectedRw = NULL;
 
-    public $rw_id;
 
-    public function mount($rw_id = Null)
+
+    
+    public function mount($selectedRw = null)
     {
         $this->provinsi = Provinsi::all();
-        $this->kota = collect();
-        $this->kecamatan = collect();
-        $this->kelurahan = collect();
-        $this->rw = collect();
-
-        if(!is_null($rw_id)){
-            $rw = Rw::with('kelurahan.kecamatan.kota.provinsi')->find($rw_id);
-
-            if($rw_id){
+        $this->kota = collect();;
+        $this->kecamatan = collect();;
+        $this->kelurahan = collect();;
+        $this->rw = collect();;
+        $this->kasuslokal = collect();;
+        $this->selectedRw = $selectedRw;
+        if (!is_null($selectedRw)) {
+            $rw = Rw::with('kelurahan.kecamatan.kota.provinsi')->find($selectedRw);
+            if ($rw) {
                 $this->rw = Rw::where('id_kelurahan', $rw->id_kelurahan)->get();
                 $this->kelurahan = Kelurahan::where('id_kecamatan', $rw->kelurahan->id_kecamatan)->get();
-                $this->kecamatan = Kecamatan::where('id_kota', $rw->kecamatan->id_kota)->get();
-                $this->kota = Kota::where('id_provinsi', $rw->kota->id_provinsi)->get();
-
-                $this->selectedProvinsi = $rw->kelurahan->kecamatan->kota->id_provinsi;
-                $this->selectedKota = $rw->kelurahan->kecamatan->id_kota;
-                $this->selectedKecamatan = $rw->kelurahan->id_kecamatan;
-                $this->selectedKelurahan = $rw->id_kelurahan;
-                
+                $this->kecamatan = Kecamatan::where('id_kota', $rw->kelurahan->kecamatan->id_kota)->get();
+                $this->kota = Kota::where('id_provinsi', $rw->kelurahan->kecamatan->kota->id_provinsi)->get();
+                $this->selectedState = $rw->kelurahan->kecamatan->kota->id_provinsi;
+                $this->selectedState2 = $rw->kelurahan->kecamatan->id_kota;
+                $this->selectedState3 = $rw->kelurahan->id_kecamatan;
+                $this->selectedState4 = $rw->id_kelurahan;
             }
         }
     }
-
+    
+    
+    
+    
     public function render()
     {
         return view('livewire.statecity');
@@ -62,26 +71,28 @@ class Statecity extends Component
             $this->kota = Kota::where('id_provinsi', $provinsi)->get();
         }
     }
-
-   
-    public function updatedSelectedKota($kota)
+    public function updatedSelectedState2($kota)
     {
-        $this->kecamatan = Kecamatan::where('id_kota', $kota)->get();
-        $this->selectedKecamatan = NULL;
-        $this->selectedKelurahan = NULL;
-        $this->selectedRw = NULL;
+        if (!is_null($kota)) {
+            $this->kecamatan = Kecamatan::where('id_kota', $kota)->get();
+        }
     }
-    public function updatedSelectedKecamatan($kecamatan)
+    public function updatedSelectedState3($kecamatan)
     {
-        $this->kelurahan = Kelurahan::where('id_kecamatan', $kecamatan)->get();
-        $this->selectedKelurahan = NULL;
-        $this->selectedRw = NULL;
+        if (!is_null($kecamatan)) {
+            $this->kelurahan = Kelurahan::where('id_kecamatan', $kecamatan)->get();
+        }
     }
-    public function updatedSelectedKelurahan($kelurahan)
+    public function updatedSelectedState4($kelurahan)
     {
-        $this->rw = Rw::where('id_kelurahan', $kelurahan)->get();
-        $this->selectedRw = NULL;
+        if (!is_null($kelurahan)) {
+            $this->rw = Rw::where('id_kelurahan', $kelurahan)->get();
+        }
     }
-
-    
+    public function updatedSelectedState5($rw)
+    {
+        if (!is_null($rw)) {
+            $this->rw = Kasus2::where('id_rw', $rw)->get();
+        }
+    }
 }
