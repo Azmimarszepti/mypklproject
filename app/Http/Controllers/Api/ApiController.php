@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kasus2;
+use App\Models\Kota;
+use App\Models\Kecamatan;
+use App\Models\Kelurahan;
 
 class ApiController extends Controller
 {
@@ -83,30 +86,99 @@ class ApiController extends Controller
 
     public function nampilkeun($id)
     {
-        $tampil = DB::table('provinsis')
-                    ->join('kotas','kotas.id_provinsi','=','provinsis.id')
-                    ->join('kecamatans','kecamatans.id_kota','=','kotas.id')
-                    ->join('kelurahans','kelurahans.id_kecamatan','=','kecamatans.id')
-                    ->join('rws','rws.id_kelurahan','=','kelurahans.id')
-                    ->join('kasus2s','kasus2s.id_rw','=','rws.id')
-                    ->where('provinsis.id',$id)
-                    ->select('provinsi',
-                                DB::raw('sum(kasus2s.positif) as positif'),
-                                DB::raw('sum(kasus2s.sembuh) as sembuh'),
-                                DB::raw('sum(kasus2s.meninggal) as meninggal'))
-                    ->groupBy('provinsi')
-                    ->get();
+       $var = DB::table('provinsis')
+            ->join('kotas', 'kotas.id_provinsi', '=', 'provinsis.id')
+            ->join('kecamatans', 'kecamatans.id_kota', '=', 'kotas.id')
+            ->join('kelurahans', 'kelurahans.id_kecamatan', '=', 'kecamatans.id')
+            ->join('rws', 'rws.id_kelurahan', '=', 'kelurahans.id')
+            ->join('kasus2s', 'kasus2s.id_rw', 'rws.id')
+            ->select('nama_provinsi',
+                DB::raw('sum(kasus2s.positif) as Positif'),
+                DB::raw('sum(kasus2s.sembuh) as sembuh'),
+                DB::raw('sum(kasus2s.meninggal) as meninggal'),
+            )
+            ->groupBy('nama_provinsi')
+            ->get();
 
-                    $data = [
-                        'Data' => 'Data Kasus Berdasarkan Provinsi',
-                        'Provinsi' => $tampil,
-                        'Jumlah Positif' => '',
-                        'Jumlah Sembuh' => '',
-                        'Jumlah Meninggal' => '',
-                        'message' => 'Data Kasus Ditampilkan'
-                    ];
+        $data = [
+            'status' => true,
+            'message' => 'Menampilkan Provinsi',
+            'data' => $var,
+        ];
+        
+        return response()->json($data, 200);
+    }
 
-                    return response()->json($data,200);
+    public function dkota()
+    {
+        $kota = Kota::latest()->get();
+        $var = DB::table('kotas')
+            ->join('kecamatans', 'kecamatans.id_kota', '=', 'kotas.id')
+            ->join('kelurahans', 'kelurahans.id_kecamatan', '=', 'kecamatans.id')
+            ->join('rws', 'rws.id_kelurahan', '=', 'kelurahans.id')
+            ->join('kasus2s', 'kasus2s.id_rw', 'rws.id')
+            ->select('nama_kota',
+                DB::raw('sum(kasus2s.positif) as Positif'),
+                DB::raw('sum(kasus2s.sembuh) as sembuh'),
+                DB::raw('sum(kasus2s.meninggal) as meninggal'),
+            )
+            ->groupBy('nama_kota')
+            ->get();
+
+        $data = [
+            'status' => true,
+            'message' => 'Menampilkan Kota',
+            'data' => $var,
+        ];
+        
+        return response()->json($data, 200);
+    }
+
+    public function dkecamatan()
+    {
+        $kec = Kecamatan::latest()->get();
+        $dt = DB::table('kecamatans')
+            ->join('kelurahans', 'kelurahans.id_kecamatan', '=', 'kecamatans.id')
+            ->join('rws', 'rws.id_kelurahan', '=', 'kelurahans.id')
+            ->join('kasus2s', 'kasus2s.id_rw', 'rws.id')
+            ->select('nama_kecamatan',
+                DB::raw('sum(kasus2s.positif) as Positif'),
+                DB::raw('sum(kasus2s.sembuh) as sembuh'),
+                DB::raw('sum(kasus2s.meninggal) as meninggal'),
+            )
+            ->groupBy('nama_kecamatan')
+            ->get();
+
+        $data = [
+            'status' => true,
+            'message' => 'Menampilkan Kecamatan',
+            'data' => $dt,
+        ];
+        
+        return response()->json($data, 200);
+    }
+
+    public function dkelurahan()
+    {
+        $kec = Kelurahan::latest()->get();
+        $dt = DB::table('kelurahans')
+            ->join('rws', 'rws.id_kelurahan', '=', 'kelurahans.id')
+            ->join('kasus2s', 'kasus2s.id_rw', 'rws.id')
+            ->select('nama_kelurahan',
+                DB::raw('sum(kasus2s.positif) as Positif'),
+                DB::raw('sum(kasus2s.sembuh) as sembuh'),
+                DB::raw('sum(kasus2s.meninggal) as meninggal'),
+            )
+            ->groupBy('nama_kelurahan')
+            ->get();
+
+        $data = [
+            'status' => true,
+            'message' => 'Menampilkan Kelurahan',
+            'data' => $dt,
+        ];
+        
+        return response()->json($data, 200);
     }
     
 }
