@@ -34,3 +34,4 @@ Route::get('kasuslokal2/{id}', [ApiController::class, 'nampilkeun']);
 Route::get('indonesia/provinsi/kota', [ApiController::class, 'dkota']);
 Route::get('indonesia/provinsi/kota/kecamatan',[ApiController::class,'dkecamatan']);
 Route::get('indonesia/provinsi/kota/kecamatan/kelurahan',[ApiController::class,'dkelurahan']);
+Route::get('global', [ApiController::class, 'global']);

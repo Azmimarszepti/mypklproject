@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kasus2;
@@ -180,5 +181,14 @@ class ApiController extends Controller
         
         return response()->json($data, 200);
     }
-    
+
+    public function global(){
+        $url = Http::get('https://api.kawalcorona.com/')->json();
+        $res = [
+            'success' => true,
+            'data' => $url,
+            'message' => 'Menampilkan Global'
+        ];
+        return response()->json($res, 200);
+    }
 }
