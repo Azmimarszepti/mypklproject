@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.welcome');
 });
 
 Auth::routes();
@@ -24,6 +24,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('test',function(){
     return view('layouts.master');
 });
+
+use App\Http\Controllers\WelcomeController;
+Route::resource('/',WelcomeController::class);
 
 use App\Http\Controllers\ProvinsiController;
 Route::resource('provinsi',ProvinsiController::class);
